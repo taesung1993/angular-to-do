@@ -1,0 +1,23 @@
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .content {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .mr-4 {
+    margin-right: 4px;
+  }
+
+  .btn {
+    cursor: pointer;
+  }
+
+  &:hover {
+    background: #f2f2f7;
+  }
+}
