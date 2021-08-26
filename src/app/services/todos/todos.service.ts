@@ -16,4 +16,11 @@ export class TodosService {
     const todos = TODOS;
     return todos.filter((todo) => todo.id !== id);
   }
+
+  editTodo(id: number, content: string) {
+    const todos = TODOS;
+    const index = todos.findIndex((todo) => todo.id === id);
+    todos[index].content = content;
+    return todos;
+  }
 }

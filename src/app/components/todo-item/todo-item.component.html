@@ -1,9 +1,20 @@
 <li>
-  <div>
-    <span class="content">{{ todo }}</span>
-  </div>
-  <div>
-    <span class="btn mr-4">📏</span>
-    <span class="btn">❌</span>
-  </div>
+  <ng-container *ngIf="editorToggle == false; else editBlock">
+    <section class="todo__item">
+      <div>
+        <span class="content">{{ todo }}</span>
+      </div>
+      <div>
+        <span class="btn mr-4" (click)="ctrlToggleEditor()">📏</span>
+        <span class="btn" (click)="delete(id)">❌</span>
+      </div>
+    </section>
+  </ng-container>
+  <ng-template #editBlock>
+    <form [formGroup]="todoForm" (ngSubmit)="onEditTodo()">
+      <input type="text" formControlName="todo" />
+      <button type="submit">수정</button>
+      <button type="button" (click)="ctrlToggleEditor()">취소</button>
+    </form>
+  </ng-template>
 </li>
