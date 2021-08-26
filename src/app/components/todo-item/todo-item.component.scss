@@ -3,6 +3,46 @@ li {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    &:hover {
+      background: #f2f2f7;
+    }
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 100%;
+      font-size: 18px;
+      font-weight: 500;
+      border: 1px solid #e3e3e9;
+      padding: 5px 10px;
+      margin: 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      margin-left: 4px;
+      width: 120px;
+      height: 33px;
+      border: 1px solid #7fc8ff;
+      cursor: pointer;
+
+      &.modify {
+        background: #7fc8ff;
+        color: #fff;
+      }
+
+      &.cancel {
+        background: #fff;
+        border: 1px solid #7fc8ff;
+        color: #7fc8ff;
+      }
+    }
   }
 
   .content {
@@ -17,9 +57,5 @@ li {
 
   .btn {
     cursor: pointer;
-  }
-
-  &:hover {
-    background: #f2f2f7;
   }
 }

@@ -13,8 +13,10 @@
   <ng-template #editBlock>
     <form [formGroup]="todoForm" (ngSubmit)="onEditTodo()">
       <input type="text" formControlName="todo" />
-      <button type="submit">수정</button>
-      <button type="button" (click)="ctrlToggleEditor()">취소</button>
+      <button type="submit" class="modify">수정</button>
+      <button type="button" class="cancel" (click)="ctrlToggleEditor()">
+        취소
+      </button>
     </form>
   </ng-template>
 </li>
