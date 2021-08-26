@@ -16,7 +16,6 @@ export class TodoListComponent implements OnInit {
   }
 
   editItem(todo: Todo): void {
-    // const { todoId: id, editingTodo: todo } = editObject;
     const id = todo.id;
     const content = todo.content;
     this.todos = this.todosService.editTodo(id, content);

@@ -1,6 +1,6 @@
 <ul>
   <app-todo-item
-    *ngFor="let todo of todos"
+    *ngFor="let todo of todos.reverse()"
     [id]="todo.id"
     [todo]="todo.content"
     (editTodo)="editItem($event)"
