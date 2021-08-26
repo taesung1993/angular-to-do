@@ -12,6 +12,12 @@ export class TodosService {
     return TODOS;
   }
 
+  addTodo(todo: Todo) {
+    const todos = TODOS;
+    todos.push(todo);
+    return todos;
+  }
+
   deleteTodo(id: number) {
     const todos = TODOS;
     return todos.filter((todo) => todo.id !== id);
