@@ -1,0 +1,28 @@
+form {
+  display: flex;
+  align-items: center;
+
+  input {
+    padding: 5px 10px;
+    margin: 0;
+    width: 100%;
+    font-size: 18px;
+    border: 1px solid #e3e3e9;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button {
+    margin-left: 4px;
+    width: 120px;
+    height: 33px;
+    font-size: 16px;
+    line-height: 31px;
+    border-radius: 0;
+    border: 1px solid #e3e3e9;
+    background: #41c265;
+    color: #fff;
+    cursor: pointer;
+  }
+}
