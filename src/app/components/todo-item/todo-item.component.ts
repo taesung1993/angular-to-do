@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Todo } from '../../services/todos/todos.model';
+// import { Todo } from '../../services/todos/todos.model';
 
 @Component({
   selector: 'app-todo-item',
@@ -10,8 +10,11 @@ import { Todo } from '../../services/todos/todos.model';
 export class TodoItemComponent implements OnInit {
   @Input() todo = '';
   @Input() id = NaN;
+  @Input() isComplete = false;
   @Output() deleteTodo = new EventEmitter<number>();
-  @Output() editTodo = new EventEmitter<Todo>();
+  @Output() editTodo = new EventEmitter<Object>();
+  @Output() setTodoComplete = new EventEmitter<number>();
+  @Output() setTodoNotComplete = new EventEmitter<number>();
 
   todoForm = new FormGroup({
     todo: new FormControl(''),
@@ -25,6 +28,14 @@ export class TodoItemComponent implements OnInit {
     });
   }
 
+  todoIsComplete(id: number): void {
+    this.setTodoComplete.emit(id);
+  }
+
+  todoIsNotComplete(id: number): void {
+    this.setTodoNotComplete.emit(id);
+  }
+
   delete(id: number): void {
     this.deleteTodo.emit(id);
   }
@@ -34,7 +45,7 @@ export class TodoItemComponent implements OnInit {
   }
 
   onEditTodo(): void {
-    const todo: Todo = {
+    const todo = {
       id: this.id,
       content: this.todoForm.value.todo,
     };

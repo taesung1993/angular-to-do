@@ -23,6 +23,18 @@ export class TodosService {
     return todos.filter((todo) => todo.id !== id);
   }
 
+  setComplete(id: number) {
+    const todos = TODOS;
+    const index = todos.findIndex((todo) => todo.id === id);
+    todos[index].isComplete = true;
+  }
+
+  setNotComplete(id: number) {
+    const todos = TODOS;
+    const index = todos.findIndex((todo) => todo.id === id);
+    todos[index].isComplete = false;
+  }
+
   editTodo(id: number, content: string) {
     const todos = TODOS;
     const index = todos.findIndex((todo) => todo.id === id);

@@ -1,12 +1,33 @@
 <li>
   <ng-container *ngIf="editorToggle == false; else editBlock">
-    <section class="todo__item">
+    <section class="todo__item" [ngClass]="isComplete ? 'complete' : ''">
       <div>
         <span class="content">{{ todo }}</span>
       </div>
       <div>
-        <span class="btn mr-4" (click)="ctrlToggleEditor()">📏</span>
-        <span class="btn" (click)="delete(id)">❌</span>
+        <ng-template
+          *ngIf="isComplete; then setNoCompleteBlock; else setCompleteBlock"
+        >
+        </ng-template>
+
+        <ng-template #setNoCompleteBlock>
+          <span class="btn check mr-4" (click)="todoIsNotComplete(id)">
+            <i class="fas fa-trash-restore"></i>
+          </span>
+        </ng-template>
+
+        <ng-template #setCompleteBlock>
+          <span class="btn check mr-4" (click)="todoIsComplete(id)">
+            <i class="fas fa-check"></i>
+          </span>
+        </ng-template>
+
+        <span class="btn edit mr-4" (click)="ctrlToggleEditor()">
+          <i class="fas fa-edit"></i>
+        </span>
+        <span class="btn delete" (click)="delete(id)">
+          <i class="fas fa-trash-alt"></i>
+        </span>
       </div>
     </section>
   </ng-container>

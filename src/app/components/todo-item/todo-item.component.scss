@@ -3,6 +3,13 @@ li {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    &.complete {
+      .content {
+        text-decoration: line-through;
+        opacity: 0.2;
+      }
+    }
+
     &:hover {
       background: #f2f2f7;
     }
@@ -56,6 +63,28 @@ li {
   }
 
   .btn {
+    display: inline-block;
+    width: 29px;
+    height: 29px;
     cursor: pointer;
+    text-align: center;
+
+    &.check {
+      background: var(--check);
+    }
+
+    &.edit {
+      background: var(--edit);
+    }
+
+    &.delete {
+      background: var(--delete);
+    }
+
+    i {
+      color: #fff;
+      font-size: 14px;
+      vertical-align: sub;
+    }
   }
 }

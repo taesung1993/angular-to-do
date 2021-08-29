@@ -15,7 +15,15 @@ export class TodoListComponent implements OnInit {
     this.todos = this.todosService.getTodos();
   }
 
-  editItem(todo: Todo): void {
+  todoIsComplete(id: number) {
+    this.todosService.setComplete(id);
+  }
+
+  todoIsNotComplete(id: number) {
+    this.todosService.setNotComplete(id);
+  }
+
+  editItem(todo: any): void {
     const id = todo.id;
     const content = todo.content;
     this.todos = this.todosService.editTodo(id, content);

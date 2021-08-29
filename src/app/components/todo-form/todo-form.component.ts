@@ -16,6 +16,7 @@ export class TodoFormComponent implements OnInit {
   todo: Todo = {
     id: NaN,
     content: '',
+    isComplete: false,
   };
 
   constructor(private todosService: TodosService) {}
@@ -27,10 +28,12 @@ export class TodoFormComponent implements OnInit {
   onSubmit(): void {
     const newId = this.todos.length + 1;
     const content = this.todoForm.value.todo;
+    const isComplete = false;
 
     this.todo = {
       id: newId,
       content,
+      isComplete,
     };
 
     this.todosService.addTodo(this.todo);
