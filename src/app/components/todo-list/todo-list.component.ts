@@ -26,10 +26,10 @@ export class TodoListComponent implements OnInit {
   editItem(todo: any): void {
     const id = todo.id;
     const content = todo.content;
-    this.todos = this.todosService.editTodo(id, content);
+    this.todosService.editTodo(id, content);
   }
 
   deleteItem(id: number): void {
-    this.todos = this.todosService.deleteTodo(id);
+    this.todosService.deleteTodo(id);
   }
 }

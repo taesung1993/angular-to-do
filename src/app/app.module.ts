@@ -10,6 +10,7 @@ import { TodoCardComponent } from './components/todo-card/todo-card.component';
 import { TodoFormComponent } from './components/todo-form/todo-form.component';
 import { TodoItemComponent } from './components/todo-item/todo-item.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
+import { RequestTodoModal } from './components/request-todo-modal/request-todo-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TodoListComponent } from './components/todo-list/todo-list.component';
     TodoFormComponent,
     TodoItemComponent,
     TodoListComponent,
+    RequestTodoModal,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [],

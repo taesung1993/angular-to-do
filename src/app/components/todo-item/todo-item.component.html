@@ -5,19 +5,22 @@
         <span class="content">{{ todo }}</span>
       </div>
       <div>
+        <!-- To do 체크, 편집, 삭제 버튼 조건문-->
         <ng-template
           *ngIf="isComplete; then setNoCompleteBlock; else setCompleteBlock"
         >
         </ng-template>
 
+        <!-- isComplete가 true일 경우 해당 블록 display-->
         <ng-template #setNoCompleteBlock>
-          <span class="btn check mr-4" (click)="todoIsNotComplete(id)">
+          <span class="btn check mr-4" (click)="openModal('todoRequest')">
             <i class="fas fa-trash-restore"></i>
           </span>
         </ng-template>
 
+        <!-- isComplete가 false일 경우 해당 블록 non-display -->
         <ng-template #setCompleteBlock>
-          <span class="btn check mr-4" (click)="todoIsComplete(id)">
+          <span class="btn check mr-4" (click)="openModal('checkRequest')">
             <i class="fas fa-check"></i>
           </span>
         </ng-template>
@@ -25,14 +28,14 @@
         <span class="btn edit mr-4" (click)="ctrlToggleEditor()">
           <i class="fas fa-edit"></i>
         </span>
-        <span class="btn delete" (click)="delete(id)">
+        <span class="btn delete" (click)="openModal('deleteRequest')">
           <i class="fas fa-trash-alt"></i>
         </span>
       </div>
     </section>
   </ng-container>
   <ng-template #editBlock>
-    <form [formGroup]="todoForm" (ngSubmit)="onEditTodo()">
+    <form [formGroup]="todoForm" (ngSubmit)="openModal('editRequest')">
       <input type="text" formControlName="todo" />
       <button type="submit" class="modify">수정</button>
       <button type="button" class="cancel" (click)="ctrlToggleEditor()">

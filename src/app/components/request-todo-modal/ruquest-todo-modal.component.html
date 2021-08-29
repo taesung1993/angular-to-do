@@ -1,0 +1,61 @@
+<div class="backdrop"></div>
+<dialog open>
+  <header>
+    <div class="close__btn" (click)="close()">
+      <i class="fas fa-times"></i>
+      <span>ESC</span>
+    </div>
+  </header>
+  <main>
+    <section
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <span class="symbol">
+        <ng-container [ngSwitch]="id">
+          <ng-container *ngSwitchCase="'checkRequest'">
+            <i class="fas fa-check"></i>
+          </ng-container>
+          <ng-container *ngSwitchCase="'todoRequest'">
+            <i class="fas fa-trash-restore"></i>
+          </ng-container>
+          <ng-container *ngSwitchCase="'editRequest'">
+            <i class="fas fa-edit"></i>
+          </ng-container>
+          <ng-container *ngSwitchCase="'deleteRequest'">
+            <i class="fas fa-trash-alt"></i>
+          </ng-container>
+        </ng-container>
+      </span>
+    </section>
+    <ng-container [ngSwitch]="id">
+      <section *ngSwitchCase="'checkRequest'" class="content">
+        해당 <b>할 일</b>을 완료하셨습니까?<br />
+        완료하셨으면, 확인 버튼을 눌러주세요.
+      </section>
+      <section *ngSwitchCase="'todoRequest'" class="content">
+        해당 <b>할 일</b>은 이미 다 한 것으로 완료처리 되었습니다.<br />
+        하지만, 결과와 다르게 완료되지 않았다면<br />
+        <b>복구</b> 버튼을 눌러주시기 바랍니다.
+      </section>
+      <section *ngSwitchCase="'editRequest'" class="content">
+        해당 <b>할 일</b>을 수정하시려면<br />
+        <b>수정</b> 버튼을 눌러주시기 바랍니다.
+      </section>
+      <section *ngSwitchCase="'deleteRequest'" class="content">
+        해당 <b>할 일</b>을 삭제하시겠습니까? <br />
+        삭제하실거면, 삭제 버튼을 눌러주세요.
+      </section>
+    </ng-container>
+  </main>
+  <footer>
+    <section>
+      <button [ngSwitch]="id" class="accept" (click)="implementCommand()">
+        <ng-container *ngSwitchCase="'checkRequest'">확인</ng-container>
+        <ng-container *ngSwitchCase="'todoRequest'">복구</ng-container>
+        <ng-container *ngSwitchCase="'editRequest'">수정</ng-container>
+        <ng-container *ngSwitchCase="'deleteRequest'">삭제</ng-container>
+      </button>
+      <button class="cancel" (click)="close()">취소</button>
+    </section>
+  </footer>
+</dialog>

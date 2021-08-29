@@ -15,12 +15,12 @@ export class TodosService {
   addTodo(todo: Todo) {
     const todos = TODOS;
     todos.push(todo);
-    return todos;
   }
 
   deleteTodo(id: number) {
     const todos = TODOS;
-    return todos.filter((todo) => todo.id !== id);
+    const index = todos.findIndex((todo) => todo.id === id);
+    todos.splice(index, 1);
   }
 
   setComplete(id: number) {
@@ -39,6 +39,5 @@ export class TodosService {
     const todos = TODOS;
     const index = todos.findIndex((todo) => todo.id === id);
     todos[index].content = content;
-    return todos;
   }
 }

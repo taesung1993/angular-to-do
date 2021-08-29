@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { RequestTodoModalService } from 'src/app/services/request-todo-modal/request-todo-modal.service';
 // import { Todo } from '../../services/todos/todos.model';
 
 @Component({
@@ -22,10 +23,20 @@ export class TodoItemComponent implements OnInit {
 
   editorToggle: boolean = false;
 
+  constructor(private requestTodoModalService: RequestTodoModalService) {}
+
   ngOnInit(): void {
     this.todoForm.setValue({
       todo: this.todo,
     });
+  }
+
+  openModal(modalId: string) {
+    if (modalId === 'editRequest') {
+      this.requestTodoModalService.setEditTodoContent(this.todoForm.value.todo);
+      this.requestTodoModalService.setTodoRef(this);
+    }
+    this.requestTodoModalService.open(modalId, this.id);
   }
 
   todoIsComplete(id: number): void {
