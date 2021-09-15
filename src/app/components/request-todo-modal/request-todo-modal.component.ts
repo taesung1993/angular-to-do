@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { RequestTodoModalService } from 'src/app/services/request-todo-modal/request-todo-modal.service';
 import { TodosService } from 'src/app/services/todos/todos.service';
 
@@ -48,29 +49,10 @@ export class RequestTodoModal implements OnInit {
   close(): void {
     this.element.style.display = 'none';
     document.body.classList.remove('modal-open');
+    this.requestTodoModalService.command$.next();
   }
 
   implementCommand(): void {
-    const todoId = this.requestTodoModalService.getTodoId();
-    const command = this.id;
-
-    switch (command) {
-      case 'checkRequest':
-        this.todosService.setComplete(todoId);
-        break;
-      case 'todoRequest':
-        this.todosService.setNotComplete(todoId);
-        break;
-      case 'editRequest':
-        const todoRef = this.requestTodoModalService.getTodoRef();
-        todoRef.onEditTodo();
-        this.requestTodoModalService.setTodoRef({});
-        break;
-      case 'deleteRequest':
-        this.todosService.deleteTodo(todoId);
-        break;
-    }
-
-    this.close();
+    this.requestTodoModalService.command$.next(this.id);
   }
 }

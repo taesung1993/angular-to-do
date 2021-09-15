@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { RequestTodoModalService } from 'src/app/services/request-todo-modal/request-todo-modal.service';
-// import { Todo } from '../../services/todos/todos.model';
+import { take, first, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-todo-item',
@@ -32,11 +32,13 @@ export class TodoItemComponent implements OnInit {
   }
 
   openModal(modalId: string) {
-    if (modalId === 'editRequest') {
-      this.requestTodoModalService.setEditTodoContent(this.todoForm.value.todo);
-      this.requestTodoModalService.setTodoRef(this);
-    }
-    this.requestTodoModalService.open(modalId, this.id);
+    this.requestTodoModalService
+      .open(modalId)
+      .pipe(take(1))
+      .subscribe((res) => {
+        console.log(res);
+        this.requestTodoModalService.close(modalId);
+      });
   }
 
   todoIsComplete(id: number): void {
