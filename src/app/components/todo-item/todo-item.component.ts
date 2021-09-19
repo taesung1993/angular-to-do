@@ -12,8 +12,9 @@ import { Subscription } from 'rxjs';
 })
 export class TodoItemComponent implements OnInit {
   @Input() todo!: string;
-  @Input() id!: number;
+  @Input() id!: string;
   @Input() isComplete!: boolean;
+
   public subscription!: Subscription | undefined;
   public todoForm!: FormGroup;
 
@@ -38,18 +39,30 @@ export class TodoItemComponent implements OnInit {
         const command = response;
         switch (command) {
           case 'checkRequest':
-            this.todoService.setComplete(this.id);
+            this.todoService
+              .setComplete(this.id)
+              .subscribe((isComplete: boolean) => {
+                this.isComplete = isComplete;
+              });
             break;
           case 'todoRequest':
-            this.todoService.setNotComplete(this.id);
+            this.todoService
+              .setNotComplete(this.id)
+              .subscribe((isComplete: boolean) => {
+                this.isComplete = isComplete;
+              });
             break;
           case 'editRequest':
             const content = this.todoForm.value.todo;
-            this.todoService.editTodo(this.id, content);
-            this.ctrlToggleEditor();
+            this.todoService.editTodo(this.id, content).subscribe((content) => {
+              this.todo = content;
+              this.ctrlToggleEditor();
+            });
             break;
           case 'deleteRequest':
-            this.todoService.deleteTodo(this.id);
+            this.todoService.deleteTodo(this.id).subscribe(() => {
+              this.todoService.getTodos();
+            });
             break;
         }
         this.requestTodoModalService.close(modalId);

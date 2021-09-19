@@ -10,36 +10,26 @@ import { TodosService } from 'src/app/services/todos/todos.service';
 })
 export class TodoFormComponent implements OnInit {
   todoForm = new FormGroup({
-    todo: new FormControl(''),
+    content: new FormControl(''),
+    isComplete: new FormControl(false),
   });
-  todos: Todo[] = [];
-  todo: Todo = {
-    id: NaN,
-    content: '',
-    isComplete: false,
-  };
 
   constructor(private todosService: TodosService) {}
 
-  ngOnInit(): void {
-    this.todos = this.todosService.getTodos();
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
-    const newId = this.todos.length + 1;
-    const content = this.todoForm.value.todo;
-    const isComplete = false;
-
-    this.todo = {
-      id: newId,
-      content,
-      isComplete,
-    };
-
-    this.todosService.addTodo(this.todo);
-
-    this.todoForm.patchValue({
-      todo: '',
+    const todo = this.todoForm.getRawValue();
+    this.todosService.postTodo(todo).subscribe((id) => {
+      const newTodo: Todo = {
+        id,
+        ...todo,
+      };
+      this.todosService.addTodo(newTodo);
+      this.todoForm.patchValue({
+        content: '',
+        isComplete: false,
+      });
     });
   }
 }
