@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RequestTodoModalService } from 'src/app/services/request-todo-modal/request-todo-modal.service';
-import { take, first, catchError } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { TodosService } from 'src/app/services/todos/todos.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-todo-item',
@@ -9,25 +11,22 @@ import { take, first, catchError } from 'rxjs/operators';
   styleUrls: ['./todo-item.component.scss'],
 })
 export class TodoItemComponent implements OnInit {
-  @Input() todo = '';
-  @Input() id = NaN;
-  @Input() isComplete = false;
-  @Output() deleteTodo = new EventEmitter<number>();
-  @Output() editTodo = new EventEmitter<Object>();
-  @Output() setTodoComplete = new EventEmitter<number>();
-  @Output() setTodoNotComplete = new EventEmitter<number>();
-
-  todoForm = new FormGroup({
-    todo: new FormControl(''),
-  });
+  @Input() todo!: string;
+  @Input() id!: number;
+  @Input() isComplete!: boolean;
+  public subscription!: Subscription | undefined;
+  public todoForm!: FormGroup;
 
   editorToggle: boolean = false;
 
-  constructor(private requestTodoModalService: RequestTodoModalService) {}
+  constructor(
+    private requestTodoModalService: RequestTodoModalService,
+    private todoService: TodosService
+  ) {}
 
   ngOnInit(): void {
-    this.todoForm.setValue({
-      todo: this.todo,
+    this.todoForm = new FormGroup({
+      todo: new FormControl('', [Validators.required]),
     });
   }
 
@@ -35,35 +34,37 @@ export class TodoItemComponent implements OnInit {
     this.requestTodoModalService
       .open(modalId)
       .pipe(take(1))
-      .subscribe((res) => {
-        console.log(res);
+      .subscribe((response) => {
+        const command = response;
+        switch (command) {
+          case 'checkRequest':
+            this.todoService.setComplete(this.id);
+            break;
+          case 'todoRequest':
+            this.todoService.setNotComplete(this.id);
+            break;
+          case 'editRequest':
+            const content = this.todoForm.value.todo;
+            this.todoService.editTodo(this.id, content);
+            this.ctrlToggleEditor();
+            break;
+          case 'deleteRequest':
+            this.todoService.deleteTodo(this.id);
+            break;
+        }
         this.requestTodoModalService.close(modalId);
       });
   }
 
-  todoIsComplete(id: number): void {
-    this.setTodoComplete.emit(id);
-  }
-
-  todoIsNotComplete(id: number): void {
-    this.setTodoNotComplete.emit(id);
-  }
-
-  delete(id: number): void {
-    this.deleteTodo.emit(id);
-  }
-
   ctrlToggleEditor(): void {
     this.editorToggle = !this.editorToggle;
-  }
 
-  onEditTodo(): void {
-    const todo = {
-      id: this.id,
-      content: this.todoForm.value.todo,
-    };
-
-    this.editTodo.emit(todo);
-    this.editorToggle = false;
+    if (this.editorToggle) {
+      this.todoForm.setValue({ todo: this.todo }, { emitEvent: false });
+    } else {
+      this.todoForm = new FormGroup({
+        todo: new FormControl('', [Validators.required]),
+      });
+    }
   }
 }

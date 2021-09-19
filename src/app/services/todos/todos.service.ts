@@ -23,13 +23,13 @@ export class TodosService {
   }
 
   editTodo(id: number, content: string) {
-    const todos = TODOS;
-    const index = todos.findIndex((todo) => todo.id === id);
-    todos[index].content = content;
+    const index = this._todos.findIndex((todo) => todo.id === id);
+    this._todos[index].content = content;
   }
 
   deleteTodo(id: number) {
-    this._todos = this._todos.filter((todo: Todo) => todo.id !== id);
+    const index = this._todos.findIndex((todo) => todo.id === id);
+    this._todos.splice(index, 1);
   }
 
   /*
